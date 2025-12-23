@@ -1,0 +1,49 @@
+[package]
+name = "energy_monitor"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# 1. Async Runtime (El motor)
+# Analogía: Es como libuv en Node.js, pero en Rust es opcional y explícito.
+# "full" habilita timers, I/O, multi-threading.
+tokio = { version = "1.36", features = ["full"] }
+
+# 2. Web Framework
+# Es el Express.js/FastAPI de facto ahora mismo. Rápido y modular.
+axum = "0.7"
+
+# 3. Serialización (JSON)
+# "derive" permite usar macros #[derive(Serialize)] sobre tus structs.
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# 4. Cliente HTTP
+# El "axios" o "requests" de Rust.
+reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
+
+# 5. Base de Datos
+# SQLx es mágico: Valida tus queries SQL al compilar (si, has leído bien).
+# Usaremos Postgres como ejemplo, pero cambia a mysql si prefieres.
+sqlx = { version = "0.7", features = ["runtime-tokio-native-tls", "postgres", "macros", "chrono", "rust_decimal"] }
+
+# 6. Manejo de Errores
+# Simplifica la creación de errores personalizados.
+thiserror = "1.0"
+
+# 7. Variables de entorno
+dotenvy = "0.15"
+
+# 8. Logging / Tracing
+# En async Rust, "print" no es suficiente porque el output se mezcla.
+# Tracing permite seguir el contexto de una request a través de hilos.
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# 9. Fechas
+chrono = { version = "0.4", features = ["serde"] }
+
+# 10. Para matemáticas financieras sin errores de redondeo
+rust_decimal = { version = "1.33", features = ["serde-with-float"] }
+# "serde-with-float" permite deserializar si la API nos manda un float sucio,
+# pero internamente lo convertimos a Decimal seguro.
