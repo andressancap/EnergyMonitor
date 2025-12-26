@@ -48,6 +48,8 @@ rust_decimal = { version = "1.33", features = ["serde-with-float"] }
 # "serde-with-float" permite deserializar si la API nos manda un float sucio,
 # pero internamente lo convertimos a Decimal seguro.
 
+async-trait = "0.1"
+
 
 [dev-dependencies]
 # Tower es la base de Axum. Nos permite tratar la App como una función Service.

@@ -1,13 +1,16 @@
 use energy_monitor::api::routes::app_router;
 use energy_monitor::infrastructure::db::{get_database_pool, save_prices};
 use energy_monitor::infrastructure::ree_client::ReeClient;
+use energy_monitor::infrastructure::postgres_repo::PostgresPriceRepository;
+use energy_monitor::AppState;
 
 
 use std::env;
 use std::net::SocketAddr;
+use std::sync::Arc;
+use std::time::Duration;
 use dotenvy::dotenv;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-use std::time::Duration;
 use tokio::time;
 
 
@@ -58,8 +61,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     spawn_etl_background_task(pool.clone(), ree_client.clone()).await;
     
     tracing::info!("Tarea de background iniciada.");
-    
-    let app = app_router(pool);
+    let postgres_repo = PostgresPriceRepository::new(pool.clone());
+
+    let app_state = AppState {
+        repo: Arc::new(postgres_repo),
+    };
+    //let app = app_router(pool);
+    let app = app_router(app_state);
     //let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
     
