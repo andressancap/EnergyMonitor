@@ -2,6 +2,7 @@
 /target/
 **/*.rs.bk
 Cargo.lock # OJO: En aplicaciones (binarios) se DEBE commitear. En librerías se ignora. Aquí lo dejamos (o quita esta línea si prefieres control total).
+.sqlx/
 
 # --- IDEs & Editors ---
 .idea/
