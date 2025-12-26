@@ -1,7 +1,7 @@
 use axum::{extract::State, http::StatusCode, Json};
 use sqlx::PgPool;
 use crate::domain::models::ElectricityPrice;
-use crate::utils::error::AppError;
+
 use crate::domain::models::GeoZone;
 use rust_decimal::Decimal;
 use chrono::NaiveDate;

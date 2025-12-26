@@ -1,10 +1,8 @@
-mod domain;
-mod infrastructure;
-mod utils;
-mod api; 
+use energy_monitor::api::routes::app_router;
+use energy_monitor::infrastructure::db::{get_database_pool, save_prices};
+use energy_monitor::infrastructure::ree_client::ReeClient;
 
-use infrastructure::db::get_database_pool;
-use infrastructure::ree_client::ReeClient;
+
 use std::env;
 use std::net::SocketAddr;
 use dotenvy::dotenv;
@@ -12,7 +10,6 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use std::time::Duration;
 use tokio::time;
 
-use api::routes::app_router;
 
 
 async fn spawn_etl_background_task(pool: sqlx::PgPool, client: ReeClient) {
@@ -31,7 +28,7 @@ async fn spawn_etl_background_task(pool: sqlx::PgPool, client: ReeClient) {
                 Ok(prices) => {
                     tracing::info!("Descargados {} precios.", prices.len());
 
-                    match infrastructure::db::save_prices(&pool, &prices).await {
+                    match save_prices(&pool, &prices).await {
                         Ok(_) => tracing::info!("Datos actualizados en DB."),
                         Err(e) => tracing::error!("Error guardando en DB: {:?}", e),
                     }

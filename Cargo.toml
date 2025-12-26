@@ -47,3 +47,12 @@ chrono = { version = "0.4", features = ["serde"] }
 rust_decimal = { version = "1.33", features = ["serde-with-float"] }
 # "serde-with-float" permite deserializar si la API nos manda un float sucio,
 # pero internamente lo convertimos a Decimal seguro.
+
+
+[dev-dependencies]
+# Tower es la base de Axum. Nos permite tratar la App como una función Service.
+tower = { version = "0.4", features = ["util"] }
+# Hyper nos da los tipos Request/Response
+hyper = "1.0"
+http-body-util = "0.1" # Para leer el body de la respuesta en los tests
+mime = "0.3"

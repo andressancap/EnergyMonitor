@@ -44,7 +44,10 @@ impl ReeClient {
 
     pub async fn get_spot_prices(&self) -> Result<Vec<ElectricityPrice>, AppError> {
 
-        let url = "https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=2024-01-01T00:00&end_date=2024-01-01T23:59&time_trunc=hour";
+        let url = format!(
+            "{}/mercados/precios-mercados-tiempo-real?start_date=2024-01-01T00:00&end_date=2024-01-01T23:59&time_trunc=hour", 
+            self.base_url
+        );
 
         let response = self.http_client
             .get(url)
