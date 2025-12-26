@@ -1,1 +1,25 @@
-/target
+# --- RUST ---
+/target/
+**/*.rs.bk
+Cargo.lock # OJO: En aplicaciones (binarios) se DEBE commitear. En librerías se ignora. Aquí lo dejamos (o quita esta línea si prefieres control total).
+
+# --- IDEs & Editors ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# --- ENV & SECRETS ---
+.env
+.env.*
+!.env.example # Si tienes un ejemplo, ese sí se sube
+
+# --- DOCKER & DATA ---
+postgres-data/
+docker-compose.override.yml
+
+# --- SQLx ---
+# Ignoramos la carpeta, pero subimos el archivo json para el modo offline
+.sqlx/*
+!.sqlx/query-*.json
